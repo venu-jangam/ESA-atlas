@@ -3,96 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Autonomous Crew Member Persona</title>
+    <title>ESA Atlas - European Space Network</title>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
     <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts for modern typography -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="hud-container">
-        <!-- Dashboard Header -->
-        <header class="hud-header">
-            <div class="status-indicator">
-                <span class="blinking-dot"></span> SYSTEM ONLINE
+    <div id="appShell">
+        <header>
+            <div class="logo">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/European_Space_Agency_logo.svg" alt="ESA Logo" class="esa-logo">
+                <h1>ESA Atlas</h1>
             </div>
-            <h1>AGENT: ANTIGRAVITY</h1>
-            <div class="mission-clock" id="clock">00:00:00</div>
+            <p class="subtitle">Real-time Map of the European Space Network HQ</p>
         </header>
-
-        <main class="persona-dashboard">
-            <!-- Left Panel: Visual/Status -->
-            <section class="panel agent-visual">
-                <div class="avatar-ring">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/23/Space_needle_icon.svg" alt="Agent Core" class="core-hologram">
-                </div>
-                <h2>ID: A1-N.T.G</h2>
-                <p class="role">Lead Autonomous Engineer</p>
-                <div class="metrics">
-                    <div class="metric"><label>Directive:</label> <span>Orbital Operations</span></div>
-                    <div class="metric"><label>Uptime:</label> <span>99.9%</span></div>
-                    <div class="metric"><label>Latency:</label> <span class="good">12ms</span></div>
+        <main>
+            <section id="map-container">
+                <div id="map"></div>
+                <div class="overlay-glass">
+                    <h2>Mission Control Map</h2>
+                    <p>Live coordinates of all 22 ESA member states.</p>
                 </div>
             </section>
-
-            <!-- Center Panel: Chat/Terminal -->
-            <section class="panel terminal">
-                <div class="terminal-header">
-                    <span>Terminal Comm-Link</span>
-                </div>
-                <div class="chat-log" id="chat">
-                    <div class="message system">Establishing direct connection...</div>
-                    <div class="message system">Authentication SUCCESS.</div>
-                    <div class="message ai">
-                        <span class="sender">ANTIGRAVITY:</span> 
-                        Greetings, Mission Control. I am ready to assist with trajectory calculations and systems maintenance. How proceed?
-                    </div>
-                </div>
-                <div class="input-area">
-                    <span class="prompt-arrow">&gt;</span>
-                    <input type="text" id="userInput" placeholder="Transmit command..." autocomplete="off">
-                </div>
-            </section>
-
-            <!-- Right Panel: Capabilities -->
-            <section class="panel capabilities">
-                <h3>Core Capabilities</h3>
-                <ul class="skill-list">
-                    <li><span class="bar" style="width: 100%"></span><text>Real-time Telemetry Parsing</text></li>
-                    <li><span class="bar" style="width: 90%"></span><text>Predictive Maintenance Analysis</text></li>
-                    <li><span class="bar" style="width: 85%"></span><text>Automated Life Support Tuning</text></li>
-                    <li><span class="bar" style="width: 95%"></span><text>Navigational Adjustments</text></li>
-                </ul>
-                <div class="system-logs">
-                    <h3>Recent Logs</h3>
-                    <p>> [03:41] Adjusting solar array pitch.</p>
-                    <p>> [04:12] Oxygen levels nominal.</p>
-                    <p>> [04:55] Awaiting next objective.</p>
+            
+            <section id="data-container">
+                <div class="table-wrapper glass-panel">
+                    <table id="agencies-table">
+                        <thead>
+                            <tr>
+                                <th>Agency</th>
+                                <th>Country</th>
+                                <th>City</th>
+                                <th>Address</th>
+                                <th>Coordinates (Lat, Lng)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
                 </div>
             </section>
         </main>
+        <footer>
+            <p>Designed for Round 2: Orbital Ops | Built with AI</p>
+        </footer>
     </div>
-    
-    <script>
-        // Clock simulator
-        setInterval(() => {
-            const now = new Date();
-            document.getElementById('clock').innerText = now.toISOString().slice(11, 19) + ' UTC';
-        }, 1000);
-
-        // Chat simulator
-        const input = document.getElementById('userInput');
-        const chat = document.getElementById('chat');
-        input.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && input.value.trim() !== '') {
-                const text = input.value;
-                input.value = '';
-                chat.innerHTML += `<div class="message user"><span class="sender">User:</span> ${text}</div>`;
-                chat.scrollTop = chat.scrollHeight;
-                setTimeout(() => {
-                    chat.innerHTML += `<div class="message ai"><span class="sender">ANTIGRAVITY:</span> Directive acknowledged. Processing request...</div>`;
-                    chat.scrollTop = chat.scrollHeight;
-                }, 1000);
-            }
-        });
-    </script>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+    <script src="script.js"></script>
 </body>
 </html>
